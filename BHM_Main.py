@@ -51,7 +51,7 @@ class PyQtIpDemo(QMainWindow,Ui_MainWindow):
             self.original = cv.cvtColor(self.captured, cv.COLOR_BGR2RGB)
 
     def btnGray_Clicked(self):
-        self.src_f = cv.cvtColor(self.captured, cv.COLOR_RGB2GRAY)
+        self.src_f = cv.cvtColor(self.captured, cv.COLOR_BGR2GRAY)#灰度化
 
         rows, cols = self.src_f.shape
         channels = 1
@@ -112,7 +112,7 @@ class PyQtIpDemo(QMainWindow,Ui_MainWindow):
         # self.btnDeHole.setEnabled(True)
         self.labelImage.update()
 
-    def btnDeHole_Clicked(self):
+    def btnDeHole_Clicked(self):#形态学滤波
         strel1 = cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5))  # 形态学操作的结构元素为直径为5的圆
         self.close_img = cv.morphologyEx(self.thresh_img, cv.MORPH_CLOSE, strel1)  # 目标为黑，闭运算能去除小的假目标
 
