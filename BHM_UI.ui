@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btnOpenImage">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>10</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>打开图像</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelImage">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>621</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>显示图像</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnGray">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>40</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>灰度化</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnGabor">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>70</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>纹理滤波</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnThresh">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>二值化</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnDeHole">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>形态学滤波</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnOpenImage</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btnOpenImage_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>751</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>730</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGray</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btnGray_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>761</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>645</x>
+     <y>71</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGabor</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btnGabor_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>766</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>561</x>
+     <y>98</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnThresh</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btnThresh_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>749</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>599</x>
+     <y>116</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeHole</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btnDeHole_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>722</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>btnOpenImage_Clicked()</slot>
+  <slot>btnGray_Clicked()</slot>
+  <slot>btnGabor_Clicked()</slot>
+  <slot>btnThresh_Clicked()</slot>
+  <slot>btnDeHole_Clicked()</slot>
+ </slots>
+</ui>
