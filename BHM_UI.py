@@ -35,6 +35,9 @@ class Ui_MainWindow(object):
         self.btnDeHole = QtWidgets.QPushButton(self.centralwidget)
         self.btnDeHole.setGeometry(QtCore.QRect(710, 130, 75, 23))
         self.btnDeHole.setObjectName("btnDeHole")
+        self.houghDection = QtWidgets.QPushButton(self.centralwidget)
+        self.houghDection.setGeometry(QtCore.QRect(710, 170, 75, 23))
+        self.houghDection.setObjectName("houghDection")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -46,6 +49,7 @@ class Ui_MainWindow(object):
         self.btnGabor.clicked.connect(MainWindow.btnGabor_Clicked)
         self.btnThresh.clicked.connect(MainWindow.btnThresh_Clicked)
         self.btnDeHole.clicked.connect(MainWindow.btnDeHole_Clicked)
+        self.houghDection.clicked.connect(MainWindow.btnHough_Clicked)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -57,3 +61,4 @@ class Ui_MainWindow(object):
         self.btnGabor.setText(_translate("MainWindow", "纹理滤波"))
         self.btnThresh.setText(_translate("MainWindow", "二值化"))
         self.btnDeHole.setText(_translate("MainWindow", "形态学滤波"))
+        self.houghDection.setText(_translate("MainWindow", "圆霍夫检测"))

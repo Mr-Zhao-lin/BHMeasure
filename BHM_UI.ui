@@ -92,6 +92,19 @@
      <string>形态学滤波</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="houghDection">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>170</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>圆霍夫检测</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
@@ -177,6 +190,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>houghDection</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btnHough_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>747</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>515</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btnOpenImage_Clicked()</slot>
@@ -184,5 +213,6 @@
   <slot>btnGabor_Clicked()</slot>
   <slot>btnThresh_Clicked()</slot>
   <slot>btnDeHole_Clicked()</slot>
+  <slot>btnHough_Clicked()</slot>
  </slots>
 </ui>

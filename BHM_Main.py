@@ -25,7 +25,7 @@ MINMUM_AREA_WIDTH = 60
 MAXIMUM_AREA_RATE = 0.8
 
 
-class PyQtIpDemo(QMainWindow,Ui_MainWindow):
+class PyQtIpDemo(QMainWindow,Ui_MainWindow):  #多继承
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -52,7 +52,7 @@ class PyQtIpDemo(QMainWindow,Ui_MainWindow):
 
     def btnGray_Clicked(self):
         self.src_f = cv.cvtColor(self.captured, cv.COLOR_BGR2GRAY)#灰度化
-
+        self.src_f=cv.equalizeHist(self.src_f)
         rows, cols = self.src_f.shape
         channels = 1
         bytesPerLine = channels * cols
@@ -75,7 +75,7 @@ class PyQtIpDemo(QMainWindow,Ui_MainWindow):
         kernel = cv.getGaborKernel((GABOR_SIZE, GABOR_SIZE), sigma, 45 * RADIAN, lambd, gamma, psi, cv.CV_32F)
         gabor_img = cv.filter2D(self.src_f, cv.CV_32F, kernel)  # Gabor滤波
         self.gabor_img = cv.convertScaleAbs(gabor_img)  # 像素值转换为无符号整数UINT8
-
+        cv.imwrite("gabor.jpg",self.gabor_img)
         rows, cols = self.gabor_img.shape
         channels = 1
         bytesPerLine = channels * cols
@@ -113,20 +113,43 @@ class PyQtIpDemo(QMainWindow,Ui_MainWindow):
         self.labelImage.update()
 
     def btnDeHole_Clicked(self):#形态学滤波
-        strel1 = cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5))  # 形态学操作的结构元素为直径为5的圆
-        self.close_img = cv.morphologyEx(self.thresh_img, cv.MORPH_CLOSE, strel1)  # 目标为黑，闭运算能去除小的假目标
+        strel1 = cv.getStructuringElement(cv.MORPH_ELLIPSE, (10, 10))  # 形态学操作的结构元素为直径为5的圆
+        self.open_img=cv.morphologyEx(self.thresh_img, cv.MORPH_OPEN, strel1)#开运算京可能保留目标信息
+        self.close_img = cv.morphologyEx(self.open_img, cv.MORPH_CLOSE, strel1)  # 目标为黑，闭运算能去除小的假目标
 
         rows, cols = self.close_img.shape
         channels = 1
         bytesPerLine = channels * cols
         self.raw_pixmap = QtGui.QPixmap.fromImage(
             QImage(self.close_img, cols, rows, bytesPerLine, QImage.Format_Indexed8))
+        #cv.imwrite("binary.jpg",self.close_img)
 
         # self.imagetoShow = self.gabor_img
         # self.imageShow()
 
         # self.btnContour.setEnabled(True)
         self.labelImage.update()
+
+    def btnHough_Clicked(self):
+        self.circle_img=self.close_img
+        circles = cv.HoughCircles(self.circle_img, cv.HOUGH_GRADIENT, dp=1, minDist=300, param1=300, param2=5, minRadius=70, maxRadius=250)
+        # 对数据进行四舍五入变为整数
+        if not circles.flatten().sum():
+            print("there's no circle detected,please change params ")
+        circles = np.uint16(np.around(circles))
+        for i in circles[0, :]:
+            # 画出来圆的边界
+            cv.circle(self.circle_img, (i[0], i[1]), i[2], (0, 0, 0), 2)
+            # 画出来圆心
+            cv.circle(self.circle_img, (i[0], i[1]), 2, (0, 255, 255), 3)
+
+        rows, cols = self.circle_img.shape
+        channels = 1
+        bytesPerLine = channels * cols
+        self.raw_pixmap = QtGui.QPixmap.fromImage(
+            QImage(self.circle_img, cols, rows, bytesPerLine, QImage.Format_Indexed8))
+        self.labelImage.update()
+
 
     def user_paint_event(self, event):
         painter = QPainter(self.labelImage)
@@ -136,24 +159,7 @@ class PyQtIpDemo(QMainWindow,Ui_MainWindow):
 
 
 if __name__=="__main__":
-    '''app=QtWidgets.QApplication(sys.argv)
+    app=QtWidgets.QApplication(sys.argv)
     window=PyQtIpDemo()
     window.show()
-    sys.exit(app.exec_())'''
-    smarties = cv.imread(r"jpg\2.jpg")
-    gray_img = cv.cvtColor(smarties, cv.COLOR_BGR2GRAY)
-    # 进行中值滤波
-    img = cv.medianBlur(gray_img, 5)
-
-    circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, 1, 70, param1=100, param2=100, minRadius=100, maxRadius=0)
-    # 对数据进行四舍五入变为整数
-    circles = np.uint16(np.around(circles))
-    for i in circles[0, :]:
-        # 画出来圆的边界
-        cv.circle(smarties, (i[0], i[1]), i[2], (0, 0, 0), 2)
-        # 画出来圆心
-        cv.circle(smarties, (i[0], i[1]), 2, (0, 255, 255), 3)
-    cv.imshow("Circle", smarties)
-    cv.waitKey()
-    cv.destroyAllWindows()
-
+    sys.exit(app.exec_())
