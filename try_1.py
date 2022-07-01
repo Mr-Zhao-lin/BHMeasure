@@ -22,25 +22,27 @@ def circle_judge(circle,img):
             return is_circle
         if points_x[i]<=circle[0]:#left
             if points_y[i]<=circle[1]:#up
-                area_left_up+=img[int(points_x[i])][int(points_y[i])]
+                area_left_up+=255#img[int(points_x[i])][int(points_y[i])]
             else:
-                area_left_down+=img[int(points_x[i])][int(points_y[i])]
+                area_left_down+=255#img[int(points_x[i])][int(points_y[i])]
         else:#right
             if points_y[i]<=circle[1]:#up
                 #print(int(points_x[i]))
                # print(points_x[i])
-                area_right_up+=img[int(points_x[i])][int(points_y[i])]
+                area_right_up+=255#img[int(points_x[i])][int(points_y[i])]
             else:
                 #print(int(points_x[i]))
-                area_right_down+=img[int(points_x[i])][int(points_y[i])]
+                area_right_down+=255#img[int(points_x[i])][int(points_y[i])]
     area_left_up,area_left_down,area_right_up,area_right_down=area_left_up/25.5,area_left_down/25.5,area_right_up/25.5,area_right_down/25.5
     area_all=area_left_up+area_right_up+area_left_down+area_right_down
+    print("圆心坐标   白色部分   左上 左下  右上  右下  圆面积")
+    print((circle[0], circle[1], area_left_up, area_left_down, area_right_up, area_right_down, area_circle))
     #实际上是白色部分面积
     area_mean=area_all/4
     if area_all/area_circle<=2:
         if (abs(area_left_down-area_mean)+abs(area_left_up-area_mean)+abs(area_right_down-area_mean)+abs(area_right_up-area_mean))/4<=(1*area_mean):
             is_circle=True
-    return is_circle
+    return area_all
 
 
 import cv2
@@ -56,26 +58,19 @@ gray_img = cv2.cvtColor(smarties, cv2.COLOR_BGR2GRAY)
 #直方图均衡化
 gray_img=cv2.equalizeHist(gray_img)
 
-cv2.imshow("111",gray_img)
+
 #gray_img=cv2.resize(gray_img,[int(1280/4),int(1024/4)])
 # 进行中值滤波
 img = cv2.medianBlur(gray_img, 5)
-#ret,img=cv2.threshold(img,0,255,cv.THRESH_BINARY + cv.THRESH_OTSU)
-print(img)
-cv2.imshow("median",img)
-circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, dp=1, minDist=300, param1=300, param2=5, minRadius=50, maxRadius=500)
+
+#circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, dp=1, minDist=300, param1=300, param2=5, minRadius=50, maxRadius=500)
+circles=np.array([500,500,200])
 # 对数据进行四舍五入变为整数
 circles = np.uint16(np.around(circles))
 #剔除误检测得圆
 #条件一：圆内黑色部分需要占到圆面积得5%以上
 #条件二：圆内黑色部分需要相对对称
 
-for i in circles[0, :]:
-    if circle_judge(i,img):
-    # 画出来圆的边界
-        cv2.circle(gray_img, (i[0], i[1]), i[2], (0, 0, 0), 2)
-    # 画出来圆心
-        cv2.circle(gray_img, (i[0], i[1]), 2, (0, 255, 255), 3)
-cv2.imshow("Circle", gray_img)
-cv2.waitKey()
+circle_judge(circles,img)
+
 
